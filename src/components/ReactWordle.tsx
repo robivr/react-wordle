@@ -2,22 +2,33 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import Word from './Word';
 
-const words = ['world', 'teach', 'pilot', 'plane', 'avoid', 'alive', 'bread'];
+const words = [
+  'world',
+  'teach',
+  'pilot',
+  'plane',
+  'avoid',
+  'alive',
+  'bread',
+  'class',
+];
 
 interface Letter {
-  letter: string;
+  key: string;
   color: string;
 }
 
 const ReactWordle = () => {
   const [selectedWord, setSelectedWord] = useState('');
   const [usedLetters, setUsedLetters] = useState([]);
-  const [pastGuesses, setPastGuesses] = useState<string[][]>([]);
+  const [pastGuesses, setPastGuesses] = useState<Letter[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<string[]>([]);
   const [tries, setTries] = useState(0);
 
   useEffect(() => {
-    setSelectedWord(words[Math.floor(Math.random() * (words.length + 1))]);
+    const randomIndex = Math.floor(Math.random() * words.length);
+    console.log(randomIndex);
+    setSelectedWord(words[randomIndex]);
   }, []);
 
   useEffect(() => {
@@ -30,8 +41,35 @@ const ReactWordle = () => {
 
   const handleKeyInput = (e: any) => {
     if (e.key === 'Enter' && currentGuess.length === 5) {
-      setPastGuesses((state) => [...state, [...currentGuess]]);
+      const newGuess = [...currentGuess].map((letter, index) => {
+        let color = 'wrongletter';
+
+        if (selectedWord.includes(letter)) {
+          color = 'incorrectpos';
+        }
+
+        let occurences = [];
+
+        for (let i = 0; i < selectedWord.length; i++) {
+          if (selectedWord[i] === letter) {
+            occurences.push(i);
+          }
+        }
+
+        if (occurences.includes(index)) {
+          color = 'correct';
+        }
+
+        const newLetter = {
+          key: letter,
+          color,
+        };
+
+        return newLetter;
+      });
+      setPastGuesses((state) => [...state, [...newGuess]]);
       setCurrentGuess([]);
+      setTries((state) => state + 1);
 
       return;
     }
@@ -61,9 +99,6 @@ const ReactWordle = () => {
   return (
     <div className="flex flex-col items-center h-full">
       <p>{selectedWord}</p>
-      <p>
-        {currentGuess}, {currentGuess.length}
-      </p>
       {wordList}
     </div>
   );

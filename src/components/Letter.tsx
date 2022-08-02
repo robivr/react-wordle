@@ -7,7 +7,9 @@ interface LetterProps {
 
 const Letter = (props: LetterProps) => {
   return (
-    <div className="border flex items-center justify-center px-4 py-4 cursor-default">
+    <div
+      className={`border flex items-center justify-center px-4 py-4 cursor-default bg-${props.color}`}
+    >
       {props.letter}
     </div>
   );

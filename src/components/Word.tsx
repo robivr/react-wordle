@@ -1,8 +1,13 @@
 import React from 'react';
 import Letter from './Letter';
 
+interface Letter {
+  key: string;
+  color: string;
+}
+
 interface WordProps {
-  word: string[];
+  word: Letter[];
 }
 
 const Word = (props: WordProps) => {
@@ -21,7 +26,7 @@ const Word = (props: WordProps) => {
   return (
     <div className="flex space-x-1 mb-2">
       {props.word.map((letter, i) => (
-        <Letter key={letter + i} letter={letter} />
+        <Letter key={letter.key + i} letter={letter.key} color={letter.color} />
       ))}
     </div>
   );
