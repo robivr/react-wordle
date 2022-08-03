@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import Keyboard from './Keyboard/Keyboard';
 import Word from './Word';
 
 const words = [
@@ -134,6 +135,8 @@ const ReactWordle = () => {
     <div className="flex flex-col items-center h-full">
       <p>{selectedWord}</p>
       {wordList}
+
+      <Keyboard usedLetters={usedLetters} />
     </div>
   );
 };
