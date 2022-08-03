@@ -51,8 +51,8 @@ const ReactWordle = () => {
     };
   }, [currentGuess]);
 
-  const handleKeyInput = (e: any) => {
-    if (e.key === 'Enter' && currentGuess.length === 5) {
+  const handleGuess = (key: any) => {
+    if (key === 'Enter' && currentGuess.length === 5) {
       const newGuess = [...currentGuess].map((letter, index) => {
         let color = 'wrongletter';
 
@@ -72,7 +72,7 @@ const ReactWordle = () => {
           color = 'correct';
         }
 
-        const newLetter = {
+        const newLetter: Letter = {
           key: letter.key,
           color,
         };
@@ -100,20 +100,29 @@ const ReactWordle = () => {
       return;
     }
 
-    if (e.key === 'Backspace') {
+    if (key === 'Backspace') {
       setCurrentGuess((state) => [...state.slice(0, currentGuess.length - 1)]);
       return;
     }
 
-    if (e.key < 'a' || e.key > 'z') return;
+    if (key < 'a' || key > 'z') return;
 
     if (currentGuess.length >= 5) return;
 
     const newLetter = {
-      key: e.key,
+      key: key,
       color: '',
     };
     setCurrentGuess((state) => [...state, newLetter]);
+  };
+
+  const handleKeyInput = (e: any) => {
+    handleGuess(e.key);
+  };
+
+  const handleKeyboardPress = (letter: string) => {
+    console.log('keyboard key', letter);
+    handleGuess(letter);
   };
 
   const wordList = [];
@@ -136,7 +145,7 @@ const ReactWordle = () => {
       <p>{selectedWord}</p>
       {wordList}
 
-      <Keyboard usedLetters={usedLetters} />
+      <Keyboard usedLetters={usedLetters} onKeyPress={handleKeyboardPress} />
     </div>
   );
 };
