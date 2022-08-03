@@ -11,5 +11,5 @@ module.exports = {
     },
   },
   plugins: [],
-  safelist: ['bg-correct', 'bg-incorrectpost', 'bg-wrongletter'],
+  safelist: ['bg-correct', 'bg-incorrectpos', 'bg-wrongletter'],
 };
