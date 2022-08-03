@@ -20,7 +20,7 @@ interface Letter {
 
 const ReactWordle = () => {
   const [selectedWord, setSelectedWord] = useState('');
-  const [usedLetters, setUsedLetters] = useState([]);
+  const [usedLetters, setUsedLetters] = useState<Letter[]>([]);
   const [pastGuesses, setPastGuesses] = useState<Letter[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<Letter[]>([]);
   const [tries, setTries] = useState(0);
@@ -68,6 +68,19 @@ const ReactWordle = () => {
         return newLetter;
       });
 
+      const uniqueCurrentLetters = [
+        ...new Map(newGuess.map((letter) => [letter['key'], letter])).values(),
+      ];
+      const usedLettersOnly = usedLetters.map((letter) => letter.key);
+      const newUsedLetters = uniqueCurrentLetters.filter((letter) => {
+        if (usedLettersOnly.includes(letter.key)) {
+          return false;
+        }
+
+        return true;
+      });
+
+      setUsedLetters((state) => [...state, ...newUsedLetters]);
       setPastGuesses((state) => [...state, newGuess]);
       setCurrentGuess([]);
       setTries((state) => state + 1);
@@ -83,8 +96,6 @@ const ReactWordle = () => {
     if (e.key < 'a' || e.key > 'z') return;
 
     if (currentGuess.length >= 5) return;
-
-    // setCurrentGuess((state) => [...state, e.key]);
 
     const newLetter = {
       key: e.key,
