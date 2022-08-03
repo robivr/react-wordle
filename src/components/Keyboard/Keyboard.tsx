@@ -22,7 +22,16 @@ const Keyboard = (props: KeyboardProps) => {
   const row2Keys = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
   const row3Keys = ['Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<'];
 
+  const getColorForLetter = (letter: string) => {
+    for (let i = 0; i < props.usedLetters.length; i++) {
+      if (props.usedLetters[i].key === letter) {
+        return props.usedLetters[i].color;
+      }
+    }
+  };
+
   const createKey = (key: string) => {
+    const color = getColorForLetter(key);
     let value = key;
 
     if (key === '<') {
@@ -32,7 +41,7 @@ const Keyboard = (props: KeyboardProps) => {
     return (
       <button
         key={key}
-        className={buttonClass}
+        className={`${buttonClass} bg-${color}`}
         onClick={handleKeyClick}
         value={value}
       >
