@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Word from './Word';
 
@@ -11,6 +11,17 @@ const words = [
   'alive',
   'bread',
   'class',
+  'await',
+  'state',
+  'fetch',
+  'react',
+  'redux',
+  'const',
+  'array',
+  'input',
+  'index',
+  'slice',
+  'every',
 ];
 
 interface Letter {
