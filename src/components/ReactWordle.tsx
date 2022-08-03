@@ -96,6 +96,11 @@ const ReactWordle = () => {
   const wordList = [];
 
   for (let i = 0; i < 5; i++) {
+    if (i === tries) {
+      wordList.push(<Word key={i} word={currentGuess} />);
+
+      continue;
+    }
     if (i < pastGuesses.length) {
       wordList.push(<Word key={i} word={pastGuesses[i]} />);
     } else {

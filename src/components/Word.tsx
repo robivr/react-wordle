@@ -11,25 +11,16 @@ interface WordProps {
 }
 
 const Word = (props: WordProps) => {
-  if (props.word.length !== 5) {
-    return (
-      <div className="flex space-x-1 mb-2">
-        <Letter />
-        <Letter />
-        <Letter />
-        <Letter />
-        <Letter />
-      </div>
-    );
+  const letterList = [];
+
+  for (let i = 0; i < 5; i++) {
+    const letter = props.word[i];
+    const key = letter?.key ? letter.key : '';
+    const color = letter?.color ? letter.color : '';
+    letterList.push(<Letter key={key + i} letter={key} color={color} />);
   }
 
-  return (
-    <div className="flex space-x-1 mb-2">
-      {props.word.map((letter, i) => (
-        <Letter key={letter.key + i} letter={letter.key} color={letter.color} />
-      ))}
-    </div>
-  );
+  return <div className="flex space-x-1 mb-2">{letterList}</div>;
 };
 
 export default Word;
