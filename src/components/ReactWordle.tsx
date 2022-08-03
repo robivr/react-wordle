@@ -22,7 +22,7 @@ const ReactWordle = () => {
   const [selectedWord, setSelectedWord] = useState('');
   const [usedLetters, setUsedLetters] = useState([]);
   const [pastGuesses, setPastGuesses] = useState<Letter[][]>([]);
-  const [currentGuess, setCurrentGuess] = useState<string[]>([]);
+  const [currentGuess, setCurrentGuess] = useState<Letter[]>([]);
   const [tries, setTries] = useState(0);
 
   useEffect(() => {
@@ -44,14 +44,14 @@ const ReactWordle = () => {
       const newGuess = [...currentGuess].map((letter, index) => {
         let color = 'wrongletter';
 
-        if (selectedWord.includes(letter)) {
+        if (selectedWord.includes(letter.key)) {
           color = 'incorrectpos';
         }
 
         let occurences = [];
 
         for (let i = 0; i < selectedWord.length; i++) {
-          if (selectedWord[i] === letter) {
+          if (selectedWord[i] === letter.key) {
             occurences.push(i);
           }
         }
@@ -61,13 +61,14 @@ const ReactWordle = () => {
         }
 
         const newLetter = {
-          key: letter,
+          key: letter.key,
           color,
         };
 
         return newLetter;
       });
-      setPastGuesses((state) => [...state, [...newGuess]]);
+
+      setPastGuesses((state) => [...state, newGuess]);
       setCurrentGuess([]);
       setTries((state) => state + 1);
 
@@ -83,7 +84,13 @@ const ReactWordle = () => {
 
     if (currentGuess.length >= 5) return;
 
-    setCurrentGuess((state) => [...state, e.key]);
+    // setCurrentGuess((state) => [...state, e.key]);
+
+    const newLetter = {
+      key: e.key,
+      color: '',
+    };
+    setCurrentGuess((state) => [...state, newLetter]);
   };
 
   const wordList = [];
