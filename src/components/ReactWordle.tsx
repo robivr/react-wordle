@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Header from './Header/Header';
 
 import Keyboard from './Keyboard/Keyboard';
 import Word from './Word/Word';
@@ -141,7 +142,7 @@ const ReactWordle = () => {
 
   const wordList = [];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     if (i === tries) {
       wordList.push(<Word key={i} word={currentGuess} />);
 
@@ -156,7 +157,7 @@ const ReactWordle = () => {
 
   return (
     <div className="flex flex-col items-center h-full">
-      <p>{selectedWord}</p>
+      <Header />
       {wordList}
 
       <Keyboard usedLetters={usedLetters} onKeyPress={handleKeyboardPress} />
