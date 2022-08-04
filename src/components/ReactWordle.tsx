@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import Keyboard from './Keyboard/Keyboard';
-import Word from './Word';
+import Word from './Word/Word';
 
 const words = [
   'world',
