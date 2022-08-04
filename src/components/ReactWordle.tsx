@@ -53,7 +53,7 @@ const ReactWordle = () => {
     };
   }, [currentGuess]);
 
-  const handleGuess = (key: any) => {
+  const handleGuess = (key: string) => {
     if (key === 'Enter' && currentGuess.length === 5) {
       const newGuess = [...currentGuess].map((letter, index) => {
         let color = 'wrongletter';
@@ -130,7 +130,7 @@ const ReactWordle = () => {
     setCurrentGuess((state) => [...state, newLetter]);
   };
 
-  const handleKeyInput = (e: any) => {
+  const handleKeyInput = (e: KeyboardEvent) => {
     handleGuess(e.key);
   };
 

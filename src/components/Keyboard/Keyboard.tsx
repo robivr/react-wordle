@@ -11,9 +11,9 @@ interface KeyboardProps {
 }
 
 const Keyboard = (props: KeyboardProps) => {
-  const handleKeyClick = (e: any) => {
-    console.log(e.target.value);
-    props.onKeyPress(e.target.value);
+  const handleKeyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const button = e.target as HTMLButtonElement;
+    props.onKeyPress(button.value);
   };
 
   const buttonClass = `border uppercase m-1 p-1`;
