@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import Keyboard from './Keyboard/Keyboard';
 import Word from './Word';
 
 const words = [
@@ -31,7 +32,9 @@ interface Letter {
 
 const ReactWordle = () => {
   const [selectedWord, setSelectedWord] = useState('');
-  const [usedLetters, setUsedLetters] = useState<Letter[]>([]);
+  const [usedLetters, setUsedLetters] = useState<Map<string, string>>(
+    new Map()
+  );
   const [pastGuesses, setPastGuesses] = useState<Letter[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<Letter[]>([]);
   const [tries, setTries] = useState(0);
@@ -50,8 +53,8 @@ const ReactWordle = () => {
     };
   }, [currentGuess]);
 
-  const handleKeyInput = (e: any) => {
-    if (e.key === 'Enter' && currentGuess.length === 5) {
+  const handleGuess = (key: string) => {
+    if (key === 'Enter' && currentGuess.length === 5) {
       const newGuess = [...currentGuess].map((letter, index) => {
         let color = 'wrongletter';
 
@@ -71,7 +74,7 @@ const ReactWordle = () => {
           color = 'correct';
         }
 
-        const newLetter = {
+        const newLetter: Letter = {
           key: letter.key,
           color,
         };
@@ -82,16 +85,28 @@ const ReactWordle = () => {
       const uniqueCurrentLetters = [
         ...new Map(newGuess.map((letter) => [letter['key'], letter])).values(),
       ];
-      const usedLettersOnly = usedLetters.map((letter) => letter.key);
-      const newUsedLetters = uniqueCurrentLetters.filter((letter) => {
-        if (usedLettersOnly.includes(letter.key)) {
-          return false;
+
+      const newUsedLetters = new Map(usedLetters);
+
+      uniqueCurrentLetters.forEach((letter) => {
+        if (!newUsedLetters?.get(letter.key)) {
+          newUsedLetters?.set(letter.key, letter.color);
+          return;
         }
 
-        return true;
+        const usedLetterColor = newUsedLetters.get(letter.key);
+
+        if (letter.color === 'correct') {
+          newUsedLetters.set(letter.key, letter.color);
+          return;
+        }
+
+        if (letter.color === 'incorrectpos' && usedLetterColor === 'wrong') {
+          newUsedLetters.set(letter.key, letter.color);
+        }
       });
 
-      setUsedLetters((state) => [...state, ...newUsedLetters]);
+      setUsedLetters(newUsedLetters);
       setPastGuesses((state) => [...state, newGuess]);
       setCurrentGuess([]);
       setTries((state) => state + 1);
@@ -99,20 +114,29 @@ const ReactWordle = () => {
       return;
     }
 
-    if (e.key === 'Backspace') {
+    if (key === 'Backspace') {
       setCurrentGuess((state) => [...state.slice(0, currentGuess.length - 1)]);
       return;
     }
 
-    if (e.key < 'a' || e.key > 'z') return;
+    if (key < 'a' || key > 'z') return;
 
     if (currentGuess.length >= 5) return;
 
     const newLetter = {
-      key: e.key,
+      key: key,
       color: '',
     };
     setCurrentGuess((state) => [...state, newLetter]);
+  };
+
+  const handleKeyInput = (e: KeyboardEvent) => {
+    handleGuess(e.key);
+  };
+
+  const handleKeyboardPress = (letter: string) => {
+    console.log('keyboard key', letter);
+    handleGuess(letter);
   };
 
   const wordList = [];
@@ -134,6 +158,8 @@ const ReactWordle = () => {
     <div className="flex flex-col items-center h-full">
       <p>{selectedWord}</p>
       {wordList}
+
+      <Keyboard usedLetters={usedLetters} onKeyPress={handleKeyboardPress} />
     </div>
   );
 };
