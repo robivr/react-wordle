@@ -32,7 +32,9 @@ interface Letter {
 
 const ReactWordle = () => {
   const [selectedWord, setSelectedWord] = useState('');
-  const [usedLetters, setUsedLetters] = useState<Letter[]>([]);
+  const [usedLetters, setUsedLetters] = useState<Map<string, string>>(
+    new Map()
+  );
   const [pastGuesses, setPastGuesses] = useState<Letter[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<Letter[]>([]);
   const [tries, setTries] = useState(0);
@@ -83,16 +85,28 @@ const ReactWordle = () => {
       const uniqueCurrentLetters = [
         ...new Map(newGuess.map((letter) => [letter['key'], letter])).values(),
       ];
-      const usedLettersOnly = usedLetters.map((letter) => letter.key);
-      const newUsedLetters = uniqueCurrentLetters.filter((letter) => {
-        if (usedLettersOnly.includes(letter.key)) {
-          return false;
+
+      const newUsedLetters = new Map(usedLetters);
+
+      uniqueCurrentLetters.forEach((letter) => {
+        if (!newUsedLetters?.get(letter.key)) {
+          newUsedLetters?.set(letter.key, letter.color);
+          return;
         }
 
-        return true;
+        const usedLetterColor = newUsedLetters.get(letter.key);
+
+        if (letter.color === 'correct') {
+          newUsedLetters.set(letter.key, letter.color);
+          return;
+        }
+
+        if (letter.color === 'incorrectpos' && usedLetterColor === 'wrong') {
+          newUsedLetters.set(letter.key, letter.color);
+        }
       });
 
-      setUsedLetters((state) => [...state, ...newUsedLetters]);
+      setUsedLetters(newUsedLetters);
       setPastGuesses((state) => [...state, newGuess]);
       setCurrentGuess([]);
       setTries((state) => state + 1);

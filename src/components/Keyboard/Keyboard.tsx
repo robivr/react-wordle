@@ -6,7 +6,7 @@ interface Letter {
 }
 
 interface KeyboardProps {
-  usedLetters: Letter[];
+  usedLetters: Map<string, string>;
   onKeyPress(letter: string): void;
 }
 
@@ -16,22 +16,14 @@ const Keyboard = (props: KeyboardProps) => {
     props.onKeyPress(e.target.value);
   };
 
-  const buttonClass = `border uppercase`;
+  const buttonClass = `border uppercase m-1 p-1`;
 
   const row1Keys = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
   const row2Keys = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
   const row3Keys = ['Enter', 'z', 'x', 'c', 'v', 'b', 'n', 'm', '<'];
 
-  const getColorForLetter = (letter: string) => {
-    for (let i = 0; i < props.usedLetters.length; i++) {
-      if (props.usedLetters[i].key === letter) {
-        return props.usedLetters[i].color;
-      }
-    }
-  };
-
   const createKey = (key: string) => {
-    const color = getColorForLetter(key);
+    const color = props.usedLetters.get(key);
     let value = key;
 
     if (key === '<') {
@@ -51,7 +43,7 @@ const Keyboard = (props: KeyboardProps) => {
   };
 
   return (
-    <div className="keyboard">
+    <div className="keyboard flex flex-col items-center">
       <div className="row1">{row1Keys.map(createKey)}</div>
       <div className="row2">{row2Keys.map(createKey)}</div>
       <div className="row3">{row3Keys.map(createKey)}</div>
