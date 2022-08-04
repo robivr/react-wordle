@@ -4,8 +4,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        incorrectpos: '#F7FE72',
-        correct: '#bada55',
+        incorrectpos: '#B59F3B',
+        correct: '#6AAA64',
         wrongletter: '#323031',
       },
     },
