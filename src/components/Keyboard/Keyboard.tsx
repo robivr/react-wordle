@@ -16,7 +16,7 @@ const Keyboard = (props: KeyboardProps) => {
     props.onKeyPress(button.value);
   };
 
-  const buttonClass = `border uppercase m-1 p-1`;
+  const buttonClass = `rounded uppercase m-1 p-1 bg-gray-600/40 h-8 w-6 min-w-fit text-white`;
 
   const row1Keys = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
   const row2Keys = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
