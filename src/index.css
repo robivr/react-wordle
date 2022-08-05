@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-incorrectpos{
+  background: #B59F3B;
+}
+
+.bg-correct {
+  background: #6AAA64;
+}
+
+.bg-wrongletter {
+  background: #323031;
+}
