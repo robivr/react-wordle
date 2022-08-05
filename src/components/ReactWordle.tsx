@@ -42,7 +42,6 @@ const ReactWordle = () => {
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * words.length);
-    console.log(randomIndex);
     setSelectedWord(words[randomIndex]);
   }, []);
 
@@ -136,7 +135,6 @@ const ReactWordle = () => {
   };
 
   const handleKeyboardPress = (letter: string) => {
-    console.log('keyboard key', letter);
     handleGuess(letter);
   };
 
