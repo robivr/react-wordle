@@ -3,6 +3,7 @@ import Header from './Header/Header';
 
 import Keyboard from './Keyboard/Keyboard';
 import Word from './Word/Word';
+import ModalBase from './Modal/ModalBase';
 
 const words = [
   'world',
@@ -39,6 +40,7 @@ const ReactWordle = () => {
   const [pastGuesses, setPastGuesses] = useState<Letter[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<Letter[]>([]);
   const [tries, setTries] = useState(0);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * words.length);
@@ -138,6 +140,10 @@ const ReactWordle = () => {
     handleGuess(letter);
   };
 
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
   const wordList = [];
 
   for (let i = 0; i < 6; i++) {
@@ -159,6 +165,9 @@ const ReactWordle = () => {
       {wordList}
 
       <Keyboard usedLetters={usedLetters} onKeyPress={handleKeyboardPress} />
+      <ModalBase isOpen={showModal} onClose={handleModalClose}>
+        <h1>yo im a modal</h1>
+      </ModalBase>
     </div>
   );
 };
