@@ -18,7 +18,7 @@ const ModalBase = ({ children, isOpen, onClose }: ModalBaseProps) => {
       ></div>
       <div
         id="modal"
-        className="fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 bg-white"
+        className="fixed top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2"
       >
         {children}
       </div>

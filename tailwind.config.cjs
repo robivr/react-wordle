@@ -8,6 +8,9 @@ module.exports = {
         correct: '#6AAA64',
         wrongletter: '#323031',
       },
+      fontSize: {
+        tiny: ['0.25rem', '0.5rem'],
+      },
     },
   },
   plugins: [],
