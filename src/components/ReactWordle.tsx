@@ -1,29 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import Header from './Header/Header';
 
 import Keyboard from './Keyboard/Keyboard';
-import Word from './Word';
+import Word from './Word/Word';
+import ModalBase from './Modal/ModalBase';
+import WonGameModal from './Modal/WonGameModal';
 
-const words = [
-  'world',
-  'teach',
-  'pilot',
-  'plane',
-  'avoid',
-  'alive',
-  'bread',
-  'class',
-  'await',
-  'state',
-  'fetch',
-  'react',
-  'redux',
-  'const',
-  'array',
-  'input',
-  'index',
-  'slice',
-  'every',
-];
+import words from '../words';
 
 interface Letter {
   key: string;
@@ -38,11 +21,21 @@ const ReactWordle = () => {
   const [pastGuesses, setPastGuesses] = useState<Letter[][]>([]);
   const [currentGuess, setCurrentGuess] = useState<Letter[]>([]);
   const [tries, setTries] = useState(0);
+  const [showModal, setShowModal] = useState(false);
+  const [gameOver, setGameOver] = useState(0);
+  const [gameStats, setGameStats] = useState({
+    played: 0,
+    won: 0,
+    streak: 0,
+    maxStreak: 0,
+    last: 'won',
+  });
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * words.length);
-    console.log(randomIndex);
     setSelectedWord(words[randomIndex]);
+
+    getGameStats();
   }, []);
 
   useEffect(() => {
@@ -53,7 +46,50 @@ const ReactWordle = () => {
     };
   }, [currentGuess]);
 
+  const guessToString = (guess: Letter[]) => {
+    let word = '';
+
+    for (let i = 0; i < guess.length; i++) {
+      word += guess[i].key;
+    }
+
+    return word;
+  };
+
+  const updateGameStats = (won: boolean) => {
+    setGameStats((state) => {
+      const newState = { ...state, played: state.played + 1 };
+
+      if (won) {
+        newState.won = newState.won + 1;
+      }
+
+      if (won && state.last === 'won') {
+        newState.streak = newState.streak + 1;
+        if (newState.streak > newState.maxStreak) {
+          newState.maxStreak = newState.streak;
+        }
+      } else {
+        newState.streak = 1;
+        newState.last = 'lost';
+      }
+
+      localStorage.setItem('stats', JSON.stringify(newState));
+      return newState;
+    });
+  };
+
+  const getGameStats = () => {
+    const stats = localStorage.getItem('stats');
+
+    if (stats === null) return;
+
+    setGameStats(JSON.parse(stats));
+  };
+
   const handleGuess = (key: string) => {
+    if (gameOver !== 0) return;
+
     if (key === 'Enter' && currentGuess.length === 5) {
       const newGuess = [...currentGuess].map((letter, index) => {
         let color = 'wrongletter';
@@ -106,6 +142,18 @@ const ReactWordle = () => {
         }
       });
 
+      if (pastGuesses.length === 5) {
+        setGameOver(2);
+        setShowModal(true);
+        updateGameStats(false);
+      }
+
+      if (guessToString(newGuess) === selectedWord) {
+        setGameOver(1);
+        setShowModal(true);
+        updateGameStats(true);
+      }
+
       setUsedLetters(newUsedLetters);
       setPastGuesses((state) => [...state, newGuess]);
       setCurrentGuess([]);
@@ -135,13 +183,16 @@ const ReactWordle = () => {
   };
 
   const handleKeyboardPress = (letter: string) => {
-    console.log('keyboard key', letter);
     handleGuess(letter);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
   };
 
   const wordList = [];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     if (i === tries) {
       wordList.push(<Word key={i} word={currentGuess} />);
 
@@ -156,10 +207,21 @@ const ReactWordle = () => {
 
   return (
     <div className="flex flex-col items-center h-full">
-      <p>{selectedWord}</p>
+      <Header />
+      <button
+        onClick={() => setShowModal(true)}
+        className="border-2 bg-red-500"
+      >
+        show modal
+      </button>
+      {gameOver === 1 && <h2 className="text-white">You won</h2>}
+      {gameOver === 2 && <h2 className="text-white">You lost</h2>}
       {wordList}
 
       <Keyboard usedLetters={usedLetters} onKeyPress={handleKeyboardPress} />
+      <ModalBase isOpen={showModal} onClose={handleModalClose}>
+        <WonGameModal word={selectedWord} stats={gameStats} />
+      </ModalBase>
     </div>
   );
 };
