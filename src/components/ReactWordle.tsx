@@ -208,12 +208,6 @@ const ReactWordle = () => {
   return (
     <div className="flex flex-col items-center h-full">
       <Header />
-      <button
-        onClick={() => setShowModal(true)}
-        className="border-2 bg-red-500"
-      >
-        show modal
-      </button>
       {gameOver === 1 && <h2 className="text-white">You won</h2>}
       {gameOver === 2 && <h2 className="text-white">You lost</h2>}
       {wordList}
