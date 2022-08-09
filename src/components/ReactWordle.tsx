@@ -6,27 +6,7 @@ import Word from './Word/Word';
 import ModalBase from './Modal/ModalBase';
 import WonGameModal from './Modal/WonGameModal';
 
-const words = [
-  'world',
-  'teach',
-  'pilot',
-  'plane',
-  'avoid',
-  'alive',
-  'bread',
-  'class',
-  'await',
-  'state',
-  'fetch',
-  'react',
-  'redux',
-  'const',
-  'array',
-  'input',
-  'index',
-  'slice',
-  'every',
-];
+import words from '../words';
 
 interface Letter {
   key: string;
