@@ -4,7 +4,7 @@ import ReactWordle from './components/ReactWordle';
 
 function App() {
   return (
-    <div className="App bg-gray-800 h-[100vh]">
+    <div className="App bg-gray-800 min-h-screen">
       <ReactWordle />
     </div>
   );
