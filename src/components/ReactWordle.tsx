@@ -71,7 +71,7 @@ const ReactWordle = () => {
           newState.maxStreak = newState.streak;
         }
       } else {
-        newState.streak = 1;
+        newState.streak = 0;
         newState.last = 'lost';
       }
 
