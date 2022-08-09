@@ -87,79 +87,88 @@ const ReactWordle = () => {
     setGameStats(JSON.parse(stats));
   };
 
+  const refreshUsedLetters = (uniqueCurrentLetters: Letter[]) => {
+    const newUsedLetters = new Map(usedLetters);
+
+    uniqueCurrentLetters.forEach((letter) => {
+      if (!newUsedLetters?.get(letter.key)) {
+        newUsedLetters?.set(letter.key, letter.color);
+        return;
+      }
+
+      const usedLetterColor = newUsedLetters.get(letter.key);
+
+      if (letter.color === 'correct') {
+        newUsedLetters.set(letter.key, letter.color);
+        return;
+      }
+
+      if (letter.color === 'incorrectpos' && usedLetterColor === 'wrong') {
+        newUsedLetters.set(letter.key, letter.color);
+      }
+    });
+    return newUsedLetters;
+  };
+
+  const checkWord = () => {
+    const newGuess = [...currentGuess].map((letter, index) => {
+      let color = 'wrongletter';
+
+      if (selectedWord.includes(letter.key)) {
+        color = 'incorrectpos';
+      }
+
+      let occurences = [];
+
+      for (let i = 0; i < selectedWord.length; i++) {
+        if (selectedWord[i] === letter.key) {
+          occurences.push(i);
+        }
+      }
+
+      if (occurences.includes(index)) {
+        color = 'correct';
+      }
+
+      const newLetter: Letter = {
+        key: letter.key,
+        color,
+      };
+
+      return newLetter;
+    });
+
+    const uniqueCurrentLetters = [
+      ...new Map(newGuess.map((letter) => [letter['key'], letter])).values(),
+    ];
+
+    const newUsedLetters = refreshUsedLetters(uniqueCurrentLetters);
+
+    if (pastGuesses.length === 5) {
+      setGameOver(2);
+      setShowModal(true);
+      updateGameStats(false);
+    }
+
+    if (guessToString(newGuess) === selectedWord) {
+      setGameOver(1);
+      setShowModal(true);
+      updateGameStats(true);
+    }
+
+    setUsedLetters(newUsedLetters);
+    setPastGuesses((state) => [...state, newGuess]);
+    setCurrentGuess([]);
+    setTries((state) => state + 1);
+
+    return;
+  };
+
   const handleGuess = (key: string) => {
     if (gameOver !== 0) return;
 
     if (key === 'Enter' && currentGuess.length === 5) {
-      const newGuess = [...currentGuess].map((letter, index) => {
-        let color = 'wrongletter';
-
-        if (selectedWord.includes(letter.key)) {
-          color = 'incorrectpos';
-        }
-
-        let occurences = [];
-
-        for (let i = 0; i < selectedWord.length; i++) {
-          if (selectedWord[i] === letter.key) {
-            occurences.push(i);
-          }
-        }
-
-        if (occurences.includes(index)) {
-          color = 'correct';
-        }
-
-        const newLetter: Letter = {
-          key: letter.key,
-          color,
-        };
-
-        return newLetter;
-      });
-
-      const uniqueCurrentLetters = [
-        ...new Map(newGuess.map((letter) => [letter['key'], letter])).values(),
-      ];
-
-      const newUsedLetters = new Map(usedLetters);
-
-      uniqueCurrentLetters.forEach((letter) => {
-        if (!newUsedLetters?.get(letter.key)) {
-          newUsedLetters?.set(letter.key, letter.color);
-          return;
-        }
-
-        const usedLetterColor = newUsedLetters.get(letter.key);
-
-        if (letter.color === 'correct') {
-          newUsedLetters.set(letter.key, letter.color);
-          return;
-        }
-
-        if (letter.color === 'incorrectpos' && usedLetterColor === 'wrong') {
-          newUsedLetters.set(letter.key, letter.color);
-        }
-      });
-
-      if (pastGuesses.length === 5) {
-        setGameOver(2);
-        setShowModal(true);
-        updateGameStats(false);
-      }
-
-      if (guessToString(newGuess) === selectedWord) {
-        setGameOver(1);
-        setShowModal(true);
-        updateGameStats(true);
-      }
-
-      setUsedLetters(newUsedLetters);
-      setPastGuesses((state) => [...state, newGuess]);
-      setCurrentGuess([]);
-      setTries((state) => state + 1);
-
-      return;
+      return checkWord();
     }
 
     if (key === 'Backspace') {
