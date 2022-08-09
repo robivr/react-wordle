@@ -20,7 +20,9 @@ const Word = (props: WordProps) => {
     letterList.push(<Letter key={key + i} letter={key} color={color} />);
   }
 
-  return <div className="flex space-x-1 mb-2">{letterList}</div>;
+  return (
+    <div className="flex space-x-1 mb-2 lg:space-x-4 lg:mb-4">{letterList}</div>
+  );
 };
 
 export default Word;

@@ -62,9 +62,10 @@ const ReactWordle = () => {
 
       if (won) {
         newState.won = newState.won + 1;
+        newState.last = 'won';
       }
 
-      if (won && state.last === 'won') {
+      if (won && newState.last === 'won') {
         newState.streak = newState.streak + 1;
         if (newState.streak > newState.maxStreak) {
           newState.maxStreak = newState.streak;
@@ -215,11 +216,11 @@ const ReactWordle = () => {
   }
 
   return (
-    <div className="flex flex-col items-center h-full">
+    <div className="flex flex-col items-center h-full min-h-screen">
       <Header />
-      {gameOver === 1 && <h2 className="text-white">You won</h2>}
-      {gameOver === 2 && <h2 className="text-white">You lost</h2>}
-      {wordList}
+      {gameOver === 1 && <h2 className="text-white text-3xl mb-4">You won</h2>}
+      {gameOver === 2 && <h2 className="text-white text-3xl mb-4">You lost</h2>}
+      <div>{wordList}</div>
 
       <Keyboard usedLetters={usedLetters} onKeyPress={handleKeyboardPress} />
       <ModalBase isOpen={showModal} onClose={handleModalClose}>
