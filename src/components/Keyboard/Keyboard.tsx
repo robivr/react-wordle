@@ -16,7 +16,8 @@ const Keyboard = (props: KeyboardProps) => {
     props.onKeyPress(button.value);
   };
 
-  const buttonClass = `rounded uppercase m-1 p-1 bg-gray-600/40 h-8 w-6 min-w-fit text-white`;
+  // const buttonClass = `rounded uppercase m-1 p-1 bg-gray-600/40 h-10 w-10 min-w-fit text-white text-3xl`;
+  const buttonClass = `rounded uppercase bg-gray-600/40 h-12 w-8 mr-1 mb-2 min-w-fit text-white text-xl`;
 
   const row1Keys = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'];
   const row2Keys = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'];
@@ -43,7 +44,7 @@ const Keyboard = (props: KeyboardProps) => {
   };
 
   return (
-    <div className="keyboard flex flex-col items-center">
+    <div className="keyboard flex flex-col items-center mt-auto mb-4">
       <div className="row1">{row1Keys.map(createKey)}</div>
       <div className="row2">{row2Keys.map(createKey)}</div>
       <div className="row3">{row3Keys.map(createKey)}</div>
