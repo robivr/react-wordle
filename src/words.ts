@@ -18,6 +18,20 @@ const words = [
   'index',
   'slice',
   'every',
+  'block',
+  'cache',
+  'click',
+  'close',
+  'crash',
+  'logic',
+  'login',
+  'image',
+  'media',
+  'mouse',
+  'patch',
+  'query',
+  'stack',
+  'write',
 ];
 
 export default words;

@@ -13,9 +13,9 @@ interface WonGameModalProps {
 
 const WonGameModal = (props: WonGameModalProps) => {
   return (
-    <div className="rounded bg-gray-800 text-white min-w-[300px] min-h-[200px]rounded pt-2 px-2 pb-4 text-3xl lg:min-w-[600px] lg:min-h-[400px]">
-      <h2 className="uppercase text-center">statistics</h2>
-      <div className="flex space-x-4 justify-center mb-4">
+    <div className="rounded bg-gray-800 text-white min-w-[300px] min-h-[200px]rounded pt-2 px-2 pb-4 text-3xl lg:min-w-[500px] lg:min-h-[350px]">
+      <h2 className="uppercase text-center lg:mb-4">statistics</h2>
+      <div className="flex space-x-4 justify-center mb-4 lg:space-x-16">
         <span className="text-center max-w-[35px]">
           <p className="mb-0 pb-0">{props.stats.played}</p>
           <p className="mt-0 pt-0 text-xs">Played</p>

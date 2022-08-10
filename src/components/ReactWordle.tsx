@@ -5,6 +5,7 @@ import Keyboard from './Keyboard/Keyboard';
 import Word from './Word/Word';
 import ModalBase from './Modal/ModalBase';
 import WonGameModal from './Modal/WonGameModal';
+import ToastModal from './Modal/ToastModal';
 
 import words from '../words';
 
@@ -23,6 +24,7 @@ const ReactWordle = () => {
   const [tries, setTries] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [gameOver, setGameOver] = useState(0);
+  const [toast, setToast] = useState('');
   const [gameStats, setGameStats] = useState({
     played: 0,
     won: 0,
@@ -111,6 +113,11 @@ const ReactWordle = () => {
     return newUsedLetters;
   };
 
+  const showToast = (text: string, delay: number) => {
+    setToast(text);
+    setTimeout(() => setToast(''), delay);
+  };
+
   const checkWord = () => {
     const newGuess = [...currentGuess].map((letter, index) => {
       let color = 'wrongletter';
@@ -139,6 +146,11 @@ const ReactWordle = () => {
       return newLetter;
     });
 
+    if (!words.includes(guessToString(newGuess))) {
+      showToast('Word not in word list', 2000);
+      return;
+    }
+
     const uniqueCurrentLetters = [
       ...new Map(newGuess.map((letter) => [letter['key'], letter])).values(),
     ];
@@ -149,12 +161,14 @@ const ReactWordle = () => {
       setGameOver(2);
       setShowModal(true);
       updateGameStats(false);
+      showToast('Better luck next time!', 2000);
     }
 
     if (guessToString(newGuess) === selectedWord) {
       setGameOver(1);
       setShowModal(true);
       updateGameStats(true);
+      showToast('Congrats, you did it!', 2000);
     }
 
     setUsedLetters(newUsedLetters);
@@ -218,9 +232,11 @@ const ReactWordle = () => {
   return (
     <div className="flex flex-col items-center h-full min-h-screen">
       <Header />
+      {toast !== '' && <ToastModal toast={toast} />}
       {gameOver === 1 && <h2 className="text-white text-3xl mb-4">You won</h2>}
       {gameOver === 2 && <h2 className="text-white text-3xl mb-4">You lost</h2>}
-      <div>{wordList}</div>
+
+      <div className="mt-4">{wordList}</div>
 
       <Keyboard usedLetters={usedLetters} onKeyPress={handleKeyboardPress} />
       <ModalBase isOpen={showModal} onClose={handleModalClose}>
