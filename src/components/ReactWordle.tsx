@@ -155,18 +155,16 @@ const ReactWordle = () => {
 
     const newUsedLetters = refreshUsedLetters(uniqueCurrentLetters);
 
-    if (pastGuesses.length >= 6) {
-      setGameOver(2);
-      setShowModal(true);
-      updateGameStats(false);
-      showToast('Better luck next time!', 2000);
-    }
-
     if (guessToString(newGuess) === selectedWord) {
       setGameOver(1);
       setShowModal(true);
       updateGameStats(true);
       showToast('Congrats, you did it!', 2000);
+    } else if (pastGuesses.length >= 5 || tries >= 5) {
+      setGameOver(2);
+      setShowModal(true);
+      updateGameStats(false);
+      showToast('Better luck next time!', 2000);
     }
 
     setUsedLetters(newUsedLetters);
