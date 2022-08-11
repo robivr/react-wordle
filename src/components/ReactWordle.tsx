@@ -65,10 +65,8 @@ const ReactWordle = () => {
       if (won) {
         newState.won = newState.won + 1;
         newState.last = 'won';
-      }
-
-      if (won && newState.last === 'won') {
         newState.streak = newState.streak + 1;
+
         if (newState.streak > newState.maxStreak) {
           newState.maxStreak = newState.streak;
         }
@@ -157,7 +155,7 @@ const ReactWordle = () => {
 
     const newUsedLetters = refreshUsedLetters(uniqueCurrentLetters);
 
-    if (pastGuesses.length === 5) {
+    if (pastGuesses.length >= 6) {
       setGameOver(2);
       setShowModal(true);
       updateGameStats(false);
