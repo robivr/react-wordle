@@ -155,8 +155,6 @@ const ReactWordle = () => {
 
     const newUsedLetters = refreshUsedLetters(uniqueCurrentLetters);
 
-    //TODO delay showing modal and toast to after animations finish
-
     if (guessToString(newGuess) === selectedWord) {
       setTimeout(() => {
         setGameOver(1);
