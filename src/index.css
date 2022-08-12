@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --animation-duration: 2s;
+}
+
 .bg-incorrectpos{
   background: #B59F3B;
 }
@@ -12,4 +16,91 @@
 
 .bg-wrongletter {
   background: #323031;
+}
+
+@keyframes flip {
+  49% {
+    background: inherit;
+  }
+
+  50% {
+    transform: rotateX(90deg);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes anim-correct {
+  0%, 49% {
+    background: inherit;
+  }
+
+  50% {
+    background: #6AAA64;
+  }
+
+  100% {
+    background: #6AAA64;
+  }
+}
+
+.flip-bg-correct {
+  animation: flip var(--animation-duration) forwards,
+              anim-correct var(--animation-duration) forwards;
+}
+
+@keyframes anim-wrongletter {
+  0%, 49% {
+    background: inherit;
+  }
+
+  50% {
+    background: #323031;
+  }
+
+  100% {
+    background: #323031;
+  }
+}
+
+.flip-bg-wrongletter {
+  animation: flip var(--animation-duration) forwards,
+              anim-wrongletter var(--animation-duration) forwards;
+}
+
+@keyframes anim-incorrectpos {
+  0%, 49% {
+    background: inherit;
+  }
+
+  50% {
+    background: #B59F3B;
+  }
+
+  100% {
+    background: #B59F3B;
+  }
+}
+
+.flip-bg-incorrectpos {
+  animation: flip var(--animation-duration) forwards,
+              anim-incorrectpos var(--animation-duration) forwards;
+}
+
+.delay-animation-100 {
+  animation-delay: 100ms;
+}
+
+.delay-animation-200 {
+  animation-delay: 200ms;
+}
+
+.delay-animation-300 {
+  animation-delay: 300ms;
+}
+
+.delay-animation-400 {
+  animation-delay: 400ms;
 }

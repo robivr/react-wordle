@@ -17,7 +17,15 @@ const Word = (props: WordProps) => {
     const letter = props.word[i];
     const key = letter?.key ? letter.key : '';
     const color = letter?.color ? letter.color : '';
-    letterList.push(<Letter key={key + i} letter={key} color={color} />);
+    letterList.push(
+      <Letter
+        key={key + i}
+        letter={key}
+        color={color}
+        flip={color != ''}
+        animationDelay={100 * i}
+      />
+    );
   }
 
   return (
