@@ -31,6 +31,7 @@ const ReactWordle = () => {
     streak: 0,
     maxStreak: 0,
     last: 'won',
+    usedWordsStats: [0, 0, 0, 0, 0, 0],
   });
 
   useEffect(() => {
@@ -62,10 +63,16 @@ const ReactWordle = () => {
     setGameStats((state) => {
       const newState = { ...state, played: state.played + 1 };
 
+      if (!newState.usedWordsStats) {
+        newState.usedWordsStats = [0, 0, 0, 0, 0, 0];
+      }
+
       if (won) {
         newState.won = newState.won + 1;
         newState.last = 'won';
         newState.streak = newState.streak + 1;
+        newState.usedWordsStats = [...newState.usedWordsStats];
+        newState.usedWordsStats[tries] = newState.usedWordsStats[tries] + 1;
 
         if (newState.streak > newState.maxStreak) {
           newState.maxStreak = newState.streak;
