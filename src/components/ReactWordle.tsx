@@ -221,6 +221,10 @@ const ReactWordle = () => {
     setShowModal(false);
   };
 
+  const handleModalOpen = () => {
+    setShowModal(true);
+  };
+
   const wordList = [];
 
   for (let i = 0; i < 6; i++) {
@@ -238,7 +242,7 @@ const ReactWordle = () => {
 
   return (
     <div className="flex flex-col items-center h-full min-h-screen">
-      <Header />
+      <Header openModal={handleModalOpen} />
       {toast !== '' && <ToastModal toast={toast} />}
       {gameOver === 1 && <h2 className="text-white text-3xl mb-4">You won</h2>}
       {gameOver === 2 && <h2 className="text-white text-3xl mb-4">You lost</h2>}
