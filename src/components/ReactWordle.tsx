@@ -88,11 +88,16 @@ const ReactWordle = () => {
   };
 
   const getGameStats = () => {
-    const stats = localStorage.getItem('stats');
+    const unparsedStats = localStorage.getItem('stats');
 
-    if (stats === null) return;
+    if (unparsedStats === null) return;
+    const stats = JSON.parse(unparsedStats);
 
-    setGameStats(JSON.parse(stats));
+    if (!stats.usedWordsStats) {
+      stats.usedWordsStats = [0, 0, 0, 0, 0, 0];
+    }
+
+    setGameStats(stats);
   };
 
   const refreshUsedLetters = (uniqueCurrentLetters: Letter[]) => {
