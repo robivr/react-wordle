@@ -11,6 +11,9 @@ module.exports = {
       fontSize: {
         tiny: ['0.25rem', '0.5rem'],
       },
+      gridTemplateColumns: {
+        header: '1fr 3fr 1fr',
+      },
     },
   },
   plugins: [],

@@ -1,4 +1,5 @@
 import React from 'react';
+import StatBarChart from '../Chart/StatBarChart';
 
 interface WonGameModalProps {
   word: string;
@@ -8,6 +9,7 @@ interface WonGameModalProps {
     streak: number;
     maxStreak: number;
     last: string;
+    usedWordsStats: number[];
   };
 }
 
@@ -32,6 +34,9 @@ const WonGameModal = (props: WonGameModalProps) => {
           <p>{props.stats.maxStreak}</p>
           <p className="text-xs">Max streak</p>
         </span>
+      </div>
+      <div className="border-t flex items-center justify-center">
+        <StatBarChart stats={props.stats.usedWordsStats} />
       </div>
       <div className="border-t flex flex-col justify-center items-center">
         <h2 className="text-center uppercase mt-8 text-base">Next wordle</h2>
