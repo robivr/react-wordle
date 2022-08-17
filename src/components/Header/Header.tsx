@@ -6,7 +6,6 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-  // <header className="w-full flex justify-center border-b-2 mb-4 p-2 font-extrabold text-white text-3xl lg:text-6xl lg:p-4">
   return (
     <header className="w-full grid grid-cols-header border-b-2 mb-4 p-2 font-extrabold text-white text-3xl lg:text-6xl lg:p-4">
       <h1 className="col-start-2 text-center">React Wordle</h1>
