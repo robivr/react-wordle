@@ -43,7 +43,7 @@ const Keyboard = (props: KeyboardProps) => {
   };
 
   return (
-    <div className="keyboard flex flex-col items-center mt-auto mb-4 lg:mt-20">
+    <div className="keyboard flex flex-col items-center mt-auto mb-4 lg:my-auto">
       <div className="row1">{row1Keys.map(createKey)}</div>
       <div className="row2">{row2Keys.map(createKey)}</div>
       <div className="row3 w-full">{row3Keys.map(createKey)}</div>
