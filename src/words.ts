@@ -72,7 +72,6 @@ const words = [
   'users',
   'tests',
   'error',
-  '',
 ];
 
 export default words;
