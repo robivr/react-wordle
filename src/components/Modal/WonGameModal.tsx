@@ -23,7 +23,11 @@ const WonGameModal = (props: WonGameModalProps) => {
           <p className="mt-0 pt-0 text-xs">Played</p>
         </span>
         <span className="text-center max-w-[35px]">
-          <p>{Math.round((props.stats.won / props.stats.played) * 100)}</p>
+          <p>
+            {props.stats.played !== 0
+              ? Math.round((props.stats.won / props.stats.played) * 100)
+              : 0}
+          </p>
           <p className="text-xs">Win %</p>
         </span>
         <span className="text-center max-w-[35px]">
