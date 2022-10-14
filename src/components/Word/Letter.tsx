@@ -11,7 +11,7 @@ const Letter = (props: LetterProps) => {
   return (
     <div
       className={
-        `border flex items-center justify-center w-16 h-16 cursor-default text-white text-3xl lg:w-[min(10%, 5rem)] lg:h-[min(10%, 5rem)] lg:text-4xl lg:border-2 uppercase` +
+        `border flex items-center justify-center w-14 h-14 cursor-default text-white text-3xl lg:w-[min(10%, 5rem)] lg:h-[min(10%, 5rem)] lg:text-4xl lg:border-2 uppercase` +
         (props.flip
           ? ` delay-animation-${props.animationDelay} flip-bg-${props.color}`
           : '')
