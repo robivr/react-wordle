@@ -14,6 +14,11 @@ module.exports = {
       gridTemplateColumns: {
         header: '1fr 3fr 1fr',
       },
+      screens: {
+        scaled: {
+          raw: '(max-height: 800px)',
+        },
+      },
     },
   },
   plugins: [],
